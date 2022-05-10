@@ -34,3 +34,21 @@ def pixel(data, nb_feature):
     for i in range(data.shape[0]):
         pix[i*nb_feature:i*nb_feature+nb_feature] = featureCalc(data[i, :])
     return pix
+
+def image(data, nb_samples, nb_feature):
+    """
+    Compute the DOP of the data
+    Args:
+        data: (signals,lenght) numpy array
+        nb_samples: number of samples to merge 
+        nb_feature: number of statistical features to be compute
+    Returns:
+        pix : (signals*nb_feature,) numpy array.
+    """
+    im = np.zeros((data.shape[0]*nb_feature, data.shape[1]//nb_samples))
+    for i in range(im.shape[1]):
+        im[:,i] = pixel(data[:,nb_samples*i:nb_samples*i+nb_samples], nb_feature)
+        normIm = np.linalg.norm(im, axis=0)
+        im = im/normIm
+    return im
+    
