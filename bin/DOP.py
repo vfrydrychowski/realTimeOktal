@@ -20,3 +20,17 @@ def featureCalc(signal):
     quart3 = np.quantile(signal, 0.75)
     std = np.std(signal)
     return np.array([moy, min, max, median, quart1, quart3, std])
+
+def pixel(data, nb_feature):
+    """
+    Compute the statiscal value for each signals in data.
+    Args:
+        data: (signals,lenght) numpy array
+        nb_feature: number of statistical features to be compute
+    Returns:
+        pix : (signals*nb_feature,) numpy array.
+    """
+    pix = np.zeros((data.shape[0]*nb_feature))
+    for i in range(data.shape[0]):
+        pix[i*nb_feature:i*nb_feature+nb_feature] = featureCalc(data[i, :])
+    return pix
