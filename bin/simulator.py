@@ -4,7 +4,7 @@ import time
 import pandas as pd
 import numpy as np
 
-
+# test value 
 df = pd.read_csv("data/simulation.csv", delim_whitespace=True, index_col='time')
 nump = df[['[00].VehicleUpdate-speed.001', '[00].VehicleUpdate-speed.002',
        '[00].VehicleUpdate-speed.003', '[00].VehicleUpdate-accel.001', '[00].VehicleUpdate-accel.002',
@@ -21,6 +21,9 @@ class process:
 
 
     def recup(self):
+        """
+        process of retrieval of simulated values
+        """
         for i in range(nump.shape[1]):
             with self.lock:
                 self.q.put(np.resize(nump[:,i], (nump.shape[0], 1)))
@@ -31,9 +34,12 @@ class process:
             
     
     def lect(self):
-        
+        """
+        process reading values from recup proccess
+        """       
         for i in range(nump.shape[1]):
             with self.lock:
+                #tant que le buffer est vide
                 while(self.nb_att.value == 0):
                     self.attLecture.wait()
                 self.data = np.append(self.data, self.q.get(), axis = 1)
