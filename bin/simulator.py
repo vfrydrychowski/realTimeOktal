@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 # test value 
-df = pd.read_csv("data/simulation.csv", delim_whitespace=True, index_col='time')
+df = pd.read_csv("../data/simulation.csv", delim_whitespace=True, index_col='time')
 nump = df[['[00].VehicleUpdate-speed.001', '[00].VehicleUpdate-speed.002',
        '[00].VehicleUpdate-speed.003', '[00].VehicleUpdate-accel.001', '[00].VehicleUpdate-accel.002',
        '[00].VehicleUpdate-accel.003', '[00].VehicleUpdate-consumption', '[00].VehicleUpdate-accelerator',
