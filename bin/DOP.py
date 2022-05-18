@@ -36,11 +36,12 @@ def pixel(data, nb_feature):
     return pix
 
 def image(data, nb_samples, nb_feature):
+    #TODO if nb_sample>datasize error
     """
     Compute the DOP of the data
     Args:
         data: (signals,lenght) numpy array
-        nb_samples: number of samples to merge 
+        nb_samples: number of samples to merge in one pixel
         nb_feature: number of statistical features to be compute
     Returns:
         pix : (signals*nb_feature,) numpy array.

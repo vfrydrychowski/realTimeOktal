@@ -56,7 +56,7 @@ if __name__ == '__main__':
     import simulator
 
     data = simulator.nump[:,:300]
-    dop = DOP.image(data, 300, 7)#issue in image builder (length = 1)
+    dop = DOP.image(data, 10, 7)#issue in image builder (length = 1)
     dopTensor = ((torch.from_numpy(dop)).unsqueeze(0)).unsqueeze(0)
     plt.imshow(dop, interpolation='nearest')
     plt.savefig("im.png", dpi=1200)
