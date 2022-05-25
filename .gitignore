@@ -1,3 +1,4 @@
 test.ipynb
 bin/__pycache__/*
 .gitignore
+socketExemle/*
