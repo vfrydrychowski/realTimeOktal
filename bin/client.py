@@ -26,7 +26,7 @@ def recup():
                 s.sendall(nump[:,i].tobytes()) #send all bytes from an column of the array
             
             print("recup" + str(i))
-            time.sleep(1) #simulate time consuming retrieval
+            time.sleep(0.2) #simulate time consuming retrieval
 
 if __name__ == '__main__':
     print("début de transmission")
