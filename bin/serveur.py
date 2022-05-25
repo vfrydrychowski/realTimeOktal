@@ -11,9 +11,8 @@ PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 
 class process:
     def __init__(self):
-        self.lock = Lock()
-        self.data = np.array([[0]]*9)
-        self.nb_att = Value('i', lock=False)
+        self.lock = Lock() #semaphore
+        self.data = np.array([[0]]*9) #databased to be fill
 
             
     
@@ -21,20 +20,26 @@ class process:
         """
         process reading values from recup proccess
         """       
-
+        #initiate tcp connection
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             s.bind((HOST, PORT))
-            for i in range(100):
-                s.listen()
+            s.listen() #serveur listening to clints requests
+
+            for i in range(100): #subjectiv numbre of connection allowed for this process
                 conn, addr = s.accept()
                 with conn:
                     print(f"Connected by {addr}")
                     data = conn.recv(1024)
-                    if not data:
+
+                    #TODO better error case for corrupted data
+                    if not data: 
                         break
-                    datanump = np.frombuffer(data, dtype=np.float64)
+
+                    #transform bit object to numpy array
+                    datanump = np.frombuffer(data, dtype=np.float64) 
+                    #append collected data to database
                     self.data = np.append(self.data, datanump.reshape((datanump.shape[0],1)), axis = 1)
-                    print(self.data[:,:])
+                    #print(self.data[:,:]) 
             
 
 if __name__ == '__main__':

@@ -17,14 +17,16 @@ def recup():
         """
         process of retrieval of simulated values
         """
+        #for all value in df
         for i in range(nump.shape[1]):
 
+            #initiate a connection to host
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
                 s.connect((HOST, PORT))
-                s.sendall(nump[:,i].tobytes())  
+                s.sendall(nump[:,i].tobytes()) #send all bytes from an column of the array
             
             print("recup" + str(i))
-            time.sleep(1)
+            time.sleep(1) #simulate time consuming retrieval
 
 if __name__ == '__main__':
     print("début de transmission")
