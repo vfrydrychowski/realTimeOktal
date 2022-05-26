@@ -12,22 +12,25 @@ class process:
     def __init__(self):
         self.lock = Lock() #semaphore
         self.database = np.array([[0]]*9) #databased to be fill
-        self.dopLect = Value('i', lock=False)
+        self.dataAtt = Value('i', lock=False)
+        self.isReading = Value('i', lock=False)
         self.attLecture = Condition(self.lock)
         self.q = SimpleQueue()
 
     def constrIm(self):
         """
-        fetch data and contruct DOP
+        fetch data and construct DOP
         """
         with self.lock:
-            while(self.dopLect.value != 0):
+            while(self.dataAtt.value == 0 or self.isReading.value > 0):
+                #someone is reading or there is no data waiting
                 self.attLecture.wait()
-            self.dopLect.value += 1
-            data = self.q.get() #ERROR wait too long
+            self.isReading.value += 1 #begin reading
+            data = self.q.get()
             print(data)
             print(data.shape)
-            self.dopLect.value -= 1
+            self.dataAtt.value -= 1 #one data fetch
+            self.isReading.value -= 1 #end reading
             self.attLecture.notify()
         
 
@@ -38,7 +41,9 @@ class process:
         """       
         #initiate proces number waiting for reading data in q
         with self.lock:
-            self.dopLect.value = 0
+            self.dataAtt.value = 0
+            self.isReading.value = 0
+        p = process()
 
         #initiate tcp connection
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
@@ -62,13 +67,18 @@ class process:
                     #print(self.data[:,:])
                 
                 #when there is enough data, a DOP is created
-                if i%taillIm == 0 and taillIm != 0: 
+                if i%taillIm == 0 and i != 0: 
                     print(">>>>launch dop construction")
                     #start the process of DOP creation
-                    Process(target=process().constrIm).start()
+                    Process(target=p.constrIm).start()
                     #send requierd data through q
-                    with self.lock:
-                        self.q.put(self.database[:,-taillIm:])
+                    imData = np.copy(self.database[:,-taillIm:])
+                    with p.lock:
+                        #print(imData.shape)
+                        p.q.put(imData)
+                        p.dataAtt.value += 1
+                        print("send data")
+                        p.attLecture.notify()
 
 
 if __name__ == '__main__':
