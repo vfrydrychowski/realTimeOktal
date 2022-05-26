@@ -40,12 +40,11 @@ class process:
         print(">> duree dop : " + str(end-start))
         plt.imshow(im, interpolation='nearest')
         plt.show()
-        time.sleep(2)
 
         
 
     
-    def lect(self, taillIm):
+    def lect(self, taillIm, recouvrement):
         """
         process reading values from recup proccess
         """       
@@ -77,7 +76,7 @@ class process:
                     #print(self.data[:,:])
                 
                 #when there is enough data, a DOP is created
-                if i%taillIm == 0 and i != 0: 
+                if i%(taillIm//recouvrement) == 0 and i >= taillIm: 
                     print(">>>>launch dop construction")
                     #start the process of DOP creation
                     Process(target=p.constrIm).start()
@@ -93,4 +92,4 @@ class process:
 
 if __name__ == '__main__':
     p = process()
-    p.lect(600)
+    p.lect(600, 4)
