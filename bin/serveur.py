@@ -3,6 +3,8 @@ from multiprocessing.dummy import Array
 import numpy as np
 import socket
 import DOP
+import time
+import matplotlib.pyplot as plt
 
 HOST = "127.0.0.1"  # Standard loopback interface address (localhost)
 PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
@@ -32,6 +34,14 @@ class process:
             self.dataAtt.value -= 1 #one data fetch
             self.isReading.value -= 1 #end reading
             self.attLecture.notify()
+        start = time.time()
+        im = DOP.image(data, 20, 7)
+        end = time.time()
+        print(">> duree dop : " + str(end-start))
+        plt.imshow(im, interpolation='nearest')
+        plt.show()
+        time.sleep(2)
+
         
 
     
@@ -83,4 +93,4 @@ class process:
 
 if __name__ == '__main__':
     p = process()
-    p.lect(10)
+    p.lect(600)
