@@ -49,7 +49,8 @@ def image(data, nb_samples, nb_feature):
     im = np.zeros((data.shape[0]*nb_feature, data.shape[1]//nb_samples))
     for i in range(im.shape[1]):
         im[:,i] = pixel(data[:,nb_samples*i:nb_samples*i+nb_samples], nb_feature)
-        normIm = np.linalg.norm(im, axis=0)
-        im = im/normIm
+        #no normalisation for the moment
+        #normIm = np.linalg.norm(im, axis=0)
+        #im = im/normIm
     return im
     
