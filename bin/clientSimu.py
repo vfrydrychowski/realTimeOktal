@@ -24,24 +24,37 @@ class Script:
 
         self.HOST = "127.0.0.1"  # The server's hostname or IP address
         self.PORT = 65432  # The port used by the server
+        self.carName = 'SmallFamilyCar'
         pass
     
     def recup(self): 
-        out = scaner.sim.get_vehicles()['SmallFamilyCar'].get_output()
+        """
+        retrieve infos from simulation with scanner.sim
+
+        Returns:
+            pix : numpy array of instant info.
+        """
+        #retrieve all info of vehicle carName
+        out = scaner.sim.get_vehicles()[self.carName].get_output()
+        
         speed = out.speed
         accel = out.accel
         conso = out.consumption
         accelPedal = out.accelerator
-        brakePedal = out.brake/400
-        print(brakePedal)
+        brakePedal = out.brake/400 #max force of a car's brake = 400 N
         return np.array([speed.x, speed.y, speed.z, accel.x, accel.y, accel.z, conso, accelPedal, brakePedal]).reshape((9,1))
     
     def send(self, data):
+        """
+        send data to the host (HOST variable)
+        Args:
+            data: (signals,) numpy array
+        """
         #initiate a connection to host
-            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-                s.connect((self.HOST, self.PORT))
-                s.sendall(data.tobytes()) #send all bytes from an column of the array
-                print("sending")    
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+            s.connect((self.HOST, self.PORT))
+            s.sendall(data.tobytes()) #send all bytes from an column of the array
+            print("sending")    
 
     def run(self):
         # this is called at each scenario step
