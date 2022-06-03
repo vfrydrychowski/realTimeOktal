@@ -23,7 +23,13 @@ class process:
         im = DOP.image(data, 20, 7)
         end = time.time()
         print(">> duree dop : " + str(end-start))
-        plt.imshow(im, interpolation='nearest')
+
+        #only for better visual interpretation 
+        imVisu= im.copy()
+        imVisu[imVisu > 0] = np.log(imVisu[imVisu > 0])
+        imVisu[imVisu < 0] = -np.log(-imVisu[imVisu < 0])
+
+        plt.imshow(imVisu, interpolation='nearest')
         plt.show()
 
         
