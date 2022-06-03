@@ -11,8 +11,13 @@ PORT = 65432  # Port to listen on (non-privileged ports are > 1023)
 
 
 class process:
-    def __init__(self):
+    def __init__(self, nb_sample):
+        """
+        Args:
+            nb_sample: number of samples to merge in one pixel
+        """
         self.database = np.array([[0]]*9) #databased to be fill
+        self.nb_sample = nb_sample
 
     def constrIm(self, data):
         """
@@ -20,7 +25,7 @@ class process:
         """
 
         start = time.time()
-        im = DOP.image(data, 20, 7)
+        im = DOP.image(data, self.nb_sample, 7)
         end = time.time()
         print(">> duree dop : " + str(end-start))
 
@@ -75,5 +80,5 @@ class process:
 
 
 if __name__ == '__main__':
-    p = process()
+    p = process(20)
     p.lect(200, 1)
