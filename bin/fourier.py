@@ -1,5 +1,4 @@
 import numpy as np
-from sklearn.manifold import spectral_embedding
 
 
 def spectrogramme(data: np.array) -> np.array:
@@ -14,7 +13,7 @@ def spectrogramme(data: np.array) -> np.array:
 if __name__ == '__main__':
     import clientTest
     import matplotlib.pyplot as plt
-    data = clientTest.nump
+    data = np.log(np.abs(spectrogramme(clientTest.nump)))
     plt.imshow(data[:,:50], interpolation='nearest', cmap='magma')
     plt.savefig("im.png", dpi=1200)
     plt.show()

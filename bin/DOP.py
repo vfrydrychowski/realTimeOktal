@@ -53,4 +53,14 @@ def image(data, nb_samples, nb_feature):
         #normIm = np.linalg.norm(im, axis=0)
         #im = im/normIm
     return im
-    
+
+if __name__ == '__main__':
+    import clientTest
+    import matplotlib.pyplot as plt
+    data = image(clientTest.nump[:,500:], 10, 7)
+    imVisu= data.copy()
+    imVisu[imVisu > 0] = np.log(imVisu[imVisu > 0])
+    imVisu[imVisu < 0] = -np.log(-imVisu[imVisu < 0])
+    plt.imshow(imVisu, interpolation='nearest', cmap='magma')
+    plt.savefig("im.png", dpi=1200)
+    plt.show()
