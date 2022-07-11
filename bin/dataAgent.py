@@ -2,17 +2,20 @@
 Data agent
 """
 
+from dis import distb
 from pyAmakCore.classes.communicating_agent import CommunicatingAgent
+from clusterAgent import clusterAgent
 
 import numpy as np
 
 
-class CommunicatingAnt(CommunicatingAgent):
+
+class dataAgent(CommunicatingAgent):
 
     def __init__(self,
                  amas,
                  pos : np.ndarray,
-                 clusterTab
+                 clusterTab : list,
                  ) -> None:
         super().__init__(amas)
         self.pos = pos
@@ -21,6 +24,7 @@ class CommunicatingAnt(CommunicatingAgent):
         self.clusterTab = clusterTab
         self.response = []
         self.attResponse = False
+        self.silhouette = None
 
 
     def read_mail(self, mail: 'Mail') -> None:
@@ -28,8 +32,32 @@ class CommunicatingAnt(CommunicatingAgent):
             if self.attResponse:
                 self.response.append(mail)
 
+    def a(self,cluster : clusterAgent):
+        """
+            Calcule de distance entre le self et tout les points appartenant à cluster
+        """
+        if cluster == self.cluster:
+            #on exclue la data que l'on veut observer
+            dataTab = np.delete(cluster.posDataTab, cluster.clusterTab.index(self), 0)
+        #distance euclidienne
+        distTab = np.abs(np.sum(self.pos - dataTab, axis=0))
+
+        return np.mean(distTab)
+        
+
     def on_perceive(self) -> None:
-        pass
+        #Si on a pas de cluster associé, on regarde le plus proche
+        if self.cluster == None:
+            posTab = np.array([x.pos for x in self.clusterTab])
+            idMinCluster = np.argmin(np.abs(posTab-self.pos))
+            self.bestC = self.clusterTab[idMinCluster]
+        else:
+            #sinon, on regarde si la data se sent "bien" dans le cluster
+             a = a(self.cluster)
+             clusterTab = np.delete(self.clusterTab, self.clusterTab.index(self.cluster), 0)
+             b = np.min([a(x) for x in clusterTab])
+             self.silhouette = (b - a)/(np.max(a,b))
+
 
     def on_act(self) -> None:
         pass
