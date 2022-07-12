@@ -7,7 +7,7 @@ from pyAmakCore.classes.communicating_agent import CommunicatingAgent
 from clusterAgent import clusterAgent
 
 import numpy as np
-
+import time
 
 
 class dataAgent(CommunicatingAgent):
@@ -25,6 +25,7 @@ class dataAgent(CommunicatingAgent):
         self.response = []
         self.attResponse = False
         self.silhouette = None
+        self.age = time.time()
 
 
     def read_mail(self, mail: 'Mail') -> None:
@@ -58,6 +59,13 @@ class dataAgent(CommunicatingAgent):
              b = np.min([a(x) for x in clusterTab])
              self.silhouette = (b - a)/(np.max(a,b))
 
+    def destroy(self):
+        """
+            supprime l'agent
+        """
+        if self.cluster != None:
+            self.cluster.removeData(self)
+        self.remove_agent()
 
     def on_act(self) -> None:
         pass
