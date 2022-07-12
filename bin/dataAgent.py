@@ -16,6 +16,7 @@ class dataAgent(CommunicatingAgent):
                  amas,
                  pos : np.ndarray,
                  clusterTab : list,
+                 ageLimit,
                  ) -> None:
         super().__init__(amas)
         self.pos = pos
@@ -26,6 +27,7 @@ class dataAgent(CommunicatingAgent):
         self.attResponse = False
         self.silhouette = None
         self.age = time.time()
+        self.ageLimit = ageLimit
 
 
     def read_mail(self, mail: 'Mail') -> None:
@@ -68,4 +70,6 @@ class dataAgent(CommunicatingAgent):
         self.remove_agent()
 
     def on_act(self) -> None:
+        if time.time() - self.age > self.ageLimit:
+            self.destroy()
         pass
