@@ -70,6 +70,7 @@ class dataAgent(CommunicatingAgent):
         self.remove_agent()
 
     def on_act(self) -> None:
+        #si la donnee est trop vielle, on la supprime.
         if time.time() - self.age > self.ageLimit:
             self.destroy()
         pass
