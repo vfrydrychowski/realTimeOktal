@@ -17,17 +17,19 @@ class dataAgent(CommunicatingAgent):
                  pos : np.ndarray,
                  clusterTab : list,
                  ageLimit,
+                 silouhetteThreshold : int
                  ) -> None:
         super().__init__(amas)
         self.pos = pos
-        self.cluster = None
-        self.bestC = None
+        self.cluster : clusterAgent = None
+        self.bestC : clusterAgent = None
         self.clusterTab = clusterTab
         self.response = []
         self.attResponse = False
         self.silhouette = None
         self.age = time.time()
         self.ageLimit = ageLimit
+        self.silouhetteThreshold = silouhetteThreshold
 
 
     def read_mail(self, mail: 'Mail') -> None:
@@ -47,13 +49,15 @@ class dataAgent(CommunicatingAgent):
 
         return np.mean(distTab)
         
+    def findClosestCluster(self):
+        posTab = np.array([x.pos for x in self.clusterTab])
+        idMinCluster = np.argmin(np.abs(posTab-self.pos))
+        self.bestC = self.clusterTab[idMinCluster]
 
     def on_perceive(self) -> None:
         #Si on a pas de cluster associé, on regarde le plus proche
         if self.cluster == None:
-            posTab = np.array([x.pos for x in self.clusterTab])
-            idMinCluster = np.argmin(np.abs(posTab-self.pos))
-            self.bestC = self.clusterTab[idMinCluster]
+            self.findClosestCluster()
         else:
             #sinon, on regarde si la data se sent "bien" dans le cluster
              a = a(self.cluster)
@@ -73,4 +77,14 @@ class dataAgent(CommunicatingAgent):
         #si la donnee est trop vielle, on la supprime.
         if time.time() - self.age > self.ageLimit:
             self.destroy()
-        pass
+        #si la données n'a pas de cluster, on envois un mess au cluster leplus proche
+        if self.cluster == None:
+            self.send_message(self.get_id, self.bestC.get_id())
+        #sinon on verifie la cohérence des données
+        elif self.silhouette < self.silouhetteThreshold:
+            self.cluster.removeData(self)
+            self.cluster = None
+            #on envois un message au cluster le plus proche
+            self.bestC = self.findClosestCluster()
+            self.send_message(self.get_id, self.bestC.get_id())
+        
