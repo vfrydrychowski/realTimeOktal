@@ -42,7 +42,9 @@ class clusterAgent(CommunicatingAgent):
     def on_perceive(self) -> None:
         #update position of in datas cluster 
         self.posDataTab = np.array([data.pos for data in self.posDataTab])
-        
+        # update self position
+        self.pos = np.mean(self.posDataTab, axis = 0)
+
     def validData(message):
         """
             validation function of a data adhesion
