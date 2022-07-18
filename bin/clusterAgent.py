@@ -5,6 +5,7 @@ Data agent
 from pyAmakCore.classes.communicating_agent import CommunicatingAgent
 
 import numpy as np
+from bin.clusterAmas import clusterAmas
 
 from bin.dataAgent import dataAgent
 
@@ -12,7 +13,7 @@ from bin.dataAgent import dataAgent
 class clusterAgent(CommunicatingAgent):
 
     def __init__(self,
-                 amas,
+                 amas : clusterAmas,
                  pos : np.ndarray,
                  clusterTab : list
                  ) -> None:
@@ -49,7 +50,9 @@ class clusterAgent(CommunicatingAgent):
         return True
 
     def on_act(self) -> None:
-        for data in self.dataToAppend:
-            if self.validData():
-                
+        #add datas to cluster
+        for id in self.dataToAppend:
+            data = self.__amas.get_agent(id)
+            if self.validData(data):
+                self.addData(data)
         pass
