@@ -14,7 +14,8 @@ class clusterAgent(CommunicatingAgent):
 
     def __init__(self,
                  amas : clusterAmas,
-                 pos : np.ndarray
+                 pos : np.ndarray,
+                 color : str
                  ) -> None:
         super().__init__(amas)
         self.pos : np.array= pos
@@ -24,6 +25,7 @@ class clusterAgent(CommunicatingAgent):
         self.dataTab : list = []
         self.posDataTab : np.array = None
         self.dataToAppend : list = []
+        self.color : str = color
 
     def addData(self, data : dataAgent):
         self.dataTab.append(data)

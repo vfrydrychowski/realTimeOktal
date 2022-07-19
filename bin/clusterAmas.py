@@ -20,10 +20,10 @@ class clusterAmas(Amas):
     
     def on_initial_agents_creation(self) -> None:
         #add cluster agents
-        c0 = self.add_agent(clusterAgent(self, np.array([0,0])))
-        c1 = self.add_agent(clusterAgent(self, np.array([1,1])))
-        c2 = self.add_agent(clusterAgent(self, np.array([1,0])))
-        c3 = self.add_agent(clusterAgent(self, np.array([0,1])))
+        c0 = self.add_agent(clusterAgent(self, np.array([0,0]), 'black'))
+        c1 = self.add_agent(clusterAgent(self, np.array([1,1]), 'red'))
+        c2 = self.add_agent(clusterAgent(self, np.array([1,0]), 'green'))
+        c3 = self.add_agent(clusterAgent(self, np.array([0,1]), 'blue'))
         clist = [c0,c1,c2,c3]
         self.clusterTab = clist
         for cluster in clist:
