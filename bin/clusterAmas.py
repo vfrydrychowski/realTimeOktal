@@ -1,9 +1,10 @@
 from msilib import add_data
+from matplotlib import pyplot
 from pyAmakCore.classes.amas import Amas
 from bin.clusterEnv import clusterEnv
 from bin.clusterAgent import clusterAgent
 import numpy as np
-
+import matplotlib.pyplot as plt
 from bin.dataAgent import dataAgent
 class clusterAmas(Amas):
 
@@ -40,3 +41,28 @@ class clusterAmas(Amas):
     def on_cycle_end(self) -> None:
         #add a data to the system
         self.addDataAgent()
+
+        #plot image of system state
+        self.plotSystemState()
+
+    def plotSystemState(self):
+        clusters = np.array([])
+        clustersColor = []
+        datas = np.array([])
+        datasColor = []
+        
+        for agent in self.get_agents:
+            if type(agent) == clusterAgent:
+                np.append(clusters, np.array(agent.pos))
+                clustersColor.append(agent.color)
+            else : 
+                np.append(datas, agent.pos)
+                if agent.cluster == None:
+                    datasColor.append('gray')
+                else:
+                    datasColor.append(agent.cluster.color)
+
+        f = plt.figure()
+        plt.scatter(clusters[:,0], clusters[:,1], c = clustersColor, marker='s')
+        plt.scatter(datas[:,0], datas[:,1], c = datasColor)
+        plt.show()

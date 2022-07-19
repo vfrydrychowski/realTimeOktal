@@ -14,6 +14,3 @@ class clusterEnv(Environment):
         except IndexError:
             d = []
         return d
-
-    def on_cycle_begin(self) -> None:
-        return super().on_cycle_begin()
