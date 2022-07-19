@@ -14,12 +14,11 @@ class clusterAgent(CommunicatingAgent):
 
     def __init__(self,
                  amas : clusterAmas,
-                 pos : np.ndarray,
-                 clusterTab : list
+                 pos : np.ndarray
                  ) -> None:
         super().__init__(amas)
         self.pos : np.array= pos
-        self.clusterTab : list= clusterTab
+        self.clusterTab : list= []
         self.response = []
         self.attResponse : bool= False
         self.dataTab : list = []
