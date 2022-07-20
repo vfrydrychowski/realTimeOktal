@@ -5,15 +5,15 @@ Data agent
 from pyAmakCore.classes.communicating_agent import CommunicatingAgent
 
 import numpy as np
-from bin.clusterAmas import clusterAmas
 
-from bin.dataAgent import dataAgent
+
+import dataAgent
 
 
 class clusterAgent(CommunicatingAgent):
 
     def __init__(self,
-                 amas : clusterAmas,
+                 amas,
                  pos : np.ndarray,
                  color : str
                  ) -> None:

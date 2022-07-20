@@ -4,3 +4,4 @@ bin/__pycache__/*
 socketExemle/*
 agentPseudoCode.txt
 test/*
+*__init__.py

@@ -1,11 +1,9 @@
-from msilib import add_data
-from matplotlib import pyplot
 from pyAmakCore.classes.amas import Amas
-from bin.clusterEnv import clusterEnv
-from bin.clusterAgent import clusterAgent
+import clusterEnv
+import clusterAgent
 import numpy as np
 import matplotlib.pyplot as plt
-from bin.dataAgent import dataAgent
+import dataAgent
 class clusterAmas(Amas):
 
     def __init__(self, environment: clusterEnv) -> None:

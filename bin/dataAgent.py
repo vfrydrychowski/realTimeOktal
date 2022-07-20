@@ -2,9 +2,8 @@
 Data agent
 """
 
-from dis import distb
 from pyAmakCore.classes.communicating_agent import CommunicatingAgent
-from clusterAgent import clusterAgent
+
 
 import numpy as np
 import time
@@ -21,8 +20,8 @@ class dataAgent(CommunicatingAgent):
                  ) -> None:
         super().__init__(amas)
         self.pos = pos
-        self.cluster : clusterAgent = None
-        self.bestC : clusterAgent = None
+        self.cluster  = None
+        self.bestC  = None
         self.clusterTab = clusterTab
         self.response = []
         self.attResponse = False
@@ -37,7 +36,7 @@ class dataAgent(CommunicatingAgent):
             if self.attResponse:
                 self.response.append(mail)
 
-    def a(self,cluster : clusterAgent):
+    def a(self,cluster ):
         """
             Calcule de distance entre le self et tout les points appartenant à cluster
         """
