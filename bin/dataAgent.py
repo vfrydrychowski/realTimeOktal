@@ -42,16 +42,16 @@ class dataAgent(CommunicatingAgent):
             Calcule de distance entre le self et tout les points appartenant à cluster
         """
         if cluster.dataTab == []:
-            return 0
+            return np.float64(0)
         if cluster == self.cluster:
             #on exclue la data que l'on veut observer
             dTab = np.delete(cluster.posDataTab, cluster.dataTab.index(self), 0)
         else:
             dTab = cluster.posDataTab
         if dTab.size == 0:
-            return 0
+            return np.float64(0)
         #distance euclidienne
-        distTab = np.abs(np.sum(self.pos - dTab, axis=1))
+        distTab = np.abs(np.sum(self.pos.reshape((self.pos.shape[0],1) - dTab.reshape((dTab.shape[0],1)))))
 
         return np.mean(distTab)
         
@@ -69,7 +69,7 @@ class dataAgent(CommunicatingAgent):
             A = self.a(self.cluster)
             clusterTab = np.delete(self.clusterTab, self.clusterTab.index(self.cluster), 0)
             B = np.min([self.a(x) for x in clusterTab])
-            max = np.max(A,B)
+            max = np.maximum(A,B)
             if max != 0:
                 self.silhouette = (B - A)/(max)
             else:
@@ -96,5 +96,5 @@ class dataAgent(CommunicatingAgent):
             self.cluster = None
             #on envois un message au cluster le plus proche
             self.bestC = self.findClosestCluster()
-            self.send_message(self.get_id, self.bestC.get_id())
+            self.send_message(self.get_id(), self.bestC.get_id())
         
