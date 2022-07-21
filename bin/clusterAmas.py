@@ -69,6 +69,7 @@ class clusterAmas(Amas):
                     datasColor.append(agent.cluster.color)
 
         f = plt.figure()
-        plt.scatter(clusters[:,0], clusters[:,1], c = clustersColor, marker='s')
         plt.scatter(datas[:,0], datas[:,1], c = datasColor)
+        plt.scatter(clusters[:,0], clusters[:,1], c = clustersColor, marker='s')
+        
         plt.show()

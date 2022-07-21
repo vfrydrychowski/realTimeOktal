@@ -23,8 +23,8 @@ class dataAgent(CommunicatingAgent):
         self.cluster  = None
         self.bestC  = None
         self.clusterTab = clusterTab
-        self.response = []
-        self.attResponse = False
+        #self.response = []
+        #self.attResponse = False
         self.silhouette = None
         self.age = time.time()
         self.ageLimit = ageLimit
@@ -32,9 +32,10 @@ class dataAgent(CommunicatingAgent):
 
 
     def read_mail(self, mail: Mail) -> None:
-        if type(mail) == bool:
-            if self.attResponse:
-                self.response.append(mail)
+        #si on est accepté dans le cluster, on s'assigne au cluster
+        if mail.get_message():
+            self.cluster = self.get_amas().get_agent(mail.get_id_sender())
+            
 
     def a(self,cluster ):
         """
@@ -59,10 +60,10 @@ class dataAgent(CommunicatingAgent):
             self.findClosestCluster()
         else:
             #sinon, on regarde si la data se sent "bien" dans le cluster
-             a = a(self.cluster)
+             A = self.a(self.cluster)
              clusterTab = np.delete(self.clusterTab, self.clusterTab.index(self.cluster), 0)
-             b = np.min([a(x) for x in clusterTab])
-             self.silhouette = (b - a)/(np.max(a,b))
+             B = np.min([self.a(x) for x in clusterTab])
+             self.silhouette = (B - A)/(np.max(A,B))
 
     def destroy(self):
         """
