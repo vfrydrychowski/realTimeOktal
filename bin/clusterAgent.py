@@ -42,8 +42,8 @@ class clusterAgent(CommunicatingAgent):
         
 
     def read_mail(self, mail: Mail) -> None:
-        if type(mail) == int:
-            self.dataToAppend.append()
+        self.dataToAppend.append(mail.get_id_sender())
+        print("test")
 
     def on_perceive(self) -> None:
         if self.dataTab != []:
@@ -61,7 +61,7 @@ class clusterAgent(CommunicatingAgent):
     def on_act(self) -> None:
         #add datas to cluster
         for id in self.dataToAppend:
-            data = self.__amas.get_agent(id)
+            data = self.get_amas().get_agent(id)
             if self.validData(data):
                 self.addData(data)
-        pass
+        self.dataToAppend = []
