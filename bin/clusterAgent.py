@@ -28,8 +28,12 @@ class clusterAgent(CommunicatingAgent):
         self.color : str = color
 
     def addData(self, data : dataAgent):
-        self.dataTab.append(data)
-        np.append(self.posDataTab, data.pos)
+        if self.dataTab == []:
+            self.dataTab = [data]
+            self.posDataTab = np.array([data.pos])
+        else:
+            self.dataTab.append(data)
+            np.append(self.posDataTab, data.pos)
 
     def removeData(self, data : dataAgent):
         self.posDataTab = np.delete(self.posDataTab, self.dataTab.index(data), 0)
@@ -41,10 +45,11 @@ class clusterAgent(CommunicatingAgent):
             self.dataToAppend.append()
 
     def on_perceive(self) -> None:
-        #update position of in datas cluster 
-        self.posDataTab = np.array([data.pos for data in self.posDataTab])
-        # update self position
-        self.pos = np.mean(self.posDataTab, axis = 0)
+        if self.dataTab != []:
+            #update position of in datas cluster
+            self.posDataTab = np.array([data.pos for data in self.dataTab])
+            # update self position
+            self.pos = np.mean(self.posDataTab, axis = 0)
 
     def validData(message):
         """
