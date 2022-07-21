@@ -52,7 +52,7 @@ class clusterAgent(CommunicatingAgent):
             # update self position
             self.pos = np.mean(self.posDataTab, axis = 0)
 
-    def validData(message):
+    def validData(self, message):
         """
             validation function of a data adhesion
         """
