@@ -44,13 +44,13 @@ class dataAgent(CommunicatingAgent):
             #on exclue la data que l'on veut observer
             dataTab = np.delete(cluster.posDataTab, cluster.clusterTab.index(self), 0)
         #distance euclidienne
-        distTab = np.abs(np.sum(self.pos - dataTab, axis=0))
+        distTab = np.abs(np.sum(self.pos - dataTab, axis=1))
 
         return np.mean(distTab)
         
     def findClosestCluster(self):
         posTab = np.array([x.pos for x in self.clusterTab])
-        idMinCluster = np.argmin(np.abs(posTab-self.pos))
+        idMinCluster = np.argmin(np.sum(np.abs(posTab-self.pos), axis = 1))
         self.bestC = self.clusterTab[idMinCluster]
 
     def on_perceive(self) -> None:

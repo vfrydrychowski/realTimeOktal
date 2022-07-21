@@ -43,7 +43,6 @@ class clusterAgent(CommunicatingAgent):
 
     def read_mail(self, mail: Mail) -> None:
         self.dataToAppend.append(mail.get_id_sender())
-        print("test")
 
     def on_perceive(self) -> None:
         if self.dataTab != []:
