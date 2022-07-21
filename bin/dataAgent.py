@@ -19,7 +19,7 @@ class dataAgent(CommunicatingAgent):
                  silouhetteThreshold : int
                  ) -> None:
         super().__init__(amas)
-        self.pos = pos
+        self.pos : np.ndarray = pos
         self.cluster  = None
         self.bestC  = None
         self.clusterTab = clusterTab
@@ -41,11 +41,17 @@ class dataAgent(CommunicatingAgent):
         """
             Calcule de distance entre le self et tout les points appartenant à cluster
         """
+        if cluster.dataTab == []:
+            return 0
         if cluster == self.cluster:
             #on exclue la data que l'on veut observer
-            dataTab = np.delete(cluster.posDataTab, cluster.clusterTab.index(self), 0)
+            dTab = np.delete(cluster.posDataTab, cluster.dataTab.index(self), 0)
+        else:
+            dTab = cluster.posDataTab
+        if dTab.size == 0:
+            return 0
         #distance euclidienne
-        distTab = np.abs(np.sum(self.pos - dataTab, axis=1))
+        distTab = np.abs(np.sum(self.pos - dTab, axis=1))
 
         return np.mean(distTab)
         
@@ -60,10 +66,14 @@ class dataAgent(CommunicatingAgent):
             self.findClosestCluster()
         else:
             #sinon, on regarde si la data se sent "bien" dans le cluster
-             A = self.a(self.cluster)
-             clusterTab = np.delete(self.clusterTab, self.clusterTab.index(self.cluster), 0)
-             B = np.min([self.a(x) for x in clusterTab])
-             self.silhouette = (B - A)/(np.max(A,B))
+            A = self.a(self.cluster)
+            clusterTab = np.delete(self.clusterTab, self.clusterTab.index(self.cluster), 0)
+            B = np.min([self.a(x) for x in clusterTab])
+            max = np.max(A,B)
+            if max != 0:
+                self.silhouette = (B - A)/(max)
+            else:
+                self.silhouette = (B - A)
 
     def destroy(self):
         """
