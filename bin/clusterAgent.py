@@ -3,6 +3,7 @@ Data agent
 """
 
 from pyAmakCore.classes.communicating_agent import CommunicatingAgent
+from pyAmakCore.classes.communicating_agent import Mail
 
 import numpy as np
 
@@ -33,14 +34,14 @@ class clusterAgent(CommunicatingAgent):
             self.posDataTab = np.array([data.pos])
         else:
             self.dataTab.append(data)
-            np.append(self.posDataTab, data.pos)
+            self.posDataTab = np.append(self.posDataTab, data.pos)
 
     def removeData(self, data : dataAgent):
         self.posDataTab = np.delete(self.posDataTab, self.dataTab.index(data), 0)
         self.dataTab.remove(data)
         
 
-    def read_mail(self, mail: 'Mail') -> None:
+    def read_mail(self, mail: Mail) -> None:
         if type(mail) == int:
             self.dataToAppend.append()
 

@@ -54,15 +54,15 @@ class clusterAmas(Amas):
             if type(agent) == clusterAgent:
                 if clusters.size == 0:
                     clusters = np.array([agent.pos])
-                    clusterColor = [agent.color]
+                    clustersColor = [agent.color]
                 else:
-                    np.append(clusters, np.array([agent.pos]), axis = 0)
+                    clusters = np.append(clusters, np.array([agent.pos]), axis = 0)
                     clustersColor.append(agent.color)
             else : 
                 if datas.size == 0:
                     datas = np.array([agent.pos])
                 else:
-                    np.append(datas, agent.pos, axis = 0)
+                    datas = np.append(datas, np.array([agent.pos]), axis = 0)
                 if agent.cluster == None:
                     datasColor.append('tab:gray')
                 else:

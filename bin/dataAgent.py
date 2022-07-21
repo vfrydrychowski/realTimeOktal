@@ -3,7 +3,7 @@ Data agent
 """
 
 from pyAmakCore.classes.communicating_agent import CommunicatingAgent
-
+from pyAmakCore.classes.communicating_agent import Mail
 
 import numpy as np
 import time
@@ -31,7 +31,7 @@ class dataAgent(CommunicatingAgent):
         self.silouhetteThreshold = silouhetteThreshold
 
 
-    def read_mail(self, mail: 'Mail') -> None:
+    def read_mail(self, mail: Mail) -> None:
         if type(mail) == bool:
             if self.attResponse:
                 self.response.append(mail)
