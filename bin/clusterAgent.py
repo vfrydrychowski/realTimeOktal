@@ -62,6 +62,6 @@ class clusterAgent(CommunicatingAgent):
         #add datas to cluster
         for id in self.dataToAppend:
             data = self.get_amas().get_agent(id)
-            if self.validData(data):
+            if self.validData(data) and data not in self.dataTab:
                 self.addData(data)
         self.dataToAppend = []

@@ -45,13 +45,14 @@ class dataAgent(CommunicatingAgent):
             return np.float64(0)
         if cluster == self.cluster:
             #on exclue la data que l'on veut observer
-            dTab = np.delete(cluster.posDataTab, cluster.dataTab.index(self), 0)
+            dataindex = cluster.dataTab.index(self)
+            dTab = np.delete(cluster.posDataTab, dataindex, 0)
         else:
             dTab = cluster.posDataTab
         if dTab.size == 0:
             return np.float64(0)
         #distance euclidienne
-        distTab = np.abs(np.sum(self.pos.reshape((self.pos.shape[0],1) - dTab.reshape((dTab.shape[0],1)))))
+        distTab = np.abs(np.sum( np.array(self.pos) - dTab))
 
         return np.mean(distTab)
         
