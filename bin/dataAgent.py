@@ -96,6 +96,6 @@ class dataAgent(CommunicatingAgent):
             self.cluster.removeData(self)
             self.cluster = None
             #on envois un message au cluster le plus proche
-            self.bestC = self.findClosestCluster()
+            self.findClosestCluster()
             self.send_message(self.get_id(), self.bestC.get_id())
         

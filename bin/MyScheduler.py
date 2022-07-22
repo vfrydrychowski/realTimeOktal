@@ -1,7 +1,7 @@
-from pyAmakCore.classes.scheduler import Scheduler
+from pyAmakCore.classes.scheduler_mono_threading import SchedulerMono
 
 
-class myScheduler(Scheduler):
+class myScheduler(SchedulerMono):
     def run(self) -> None:
         for _ in range (200):
             print("Cycle : ", self.amas.get_cycle())
