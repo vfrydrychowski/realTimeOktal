@@ -34,7 +34,7 @@ class clusterAgent(CommunicatingAgent):
             self.posDataTab = np.array([data.pos])
         else:
             self.dataTab.append(data)
-            self.posDataTab = np.append(self.posDataTab, data.pos)
+            self.posDataTab = np.append(self.posDataTab, data.pos, axis = 0)
 
     def removeData(self, data : dataAgent):
         self.posDataTab = np.delete(self.posDataTab, self.dataTab.index(data), 0)
