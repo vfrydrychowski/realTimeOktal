@@ -52,7 +52,7 @@ class dataAgent(CommunicatingAgent):
         if dTab.size == 0:
             return np.float64(0)
         #distance euclidienne
-        distTab = np.abs(np.sum( np.array(self.pos) - dTab))
+        distTab = np.sum(np.abs( np.array(self.pos) - dTab))
 
         return np.mean(distTab)
         
