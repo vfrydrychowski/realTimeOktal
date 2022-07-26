@@ -43,6 +43,27 @@ class clusterAmas(Amas):
 
         #plot image of system state
         self.plotSystemState()
+    
+    def clusterColorEmphase(self, clustersColors):
+        """Change the color of the cluster to emphase them on the figure
+
+        Args:
+            clustersColors (tab of string): string defining colors of the cluster
+        """
+        newTab = []
+        c = ""
+        for color in clustersColors:
+            if color == 'r':
+                c = '#FF2DEC'
+            elif color == 'k':
+                c = '#895AC1'
+            elif color == 'g':
+                c = '#1DEA1D'
+            elif color == 'b':
+                c = '#1DEADA'
+            newTab.append(c)
+        return newTab
+            
 
     def plotSystemState(self):
         clusters = np.array([])
@@ -70,6 +91,6 @@ class clusterAmas(Amas):
 
         f = plt.figure()
         plt.scatter(datas[:,0], datas[:,1], c = datasColor)
-        plt.scatter(clusters[:,0], clusters[:,1], c = clustersColor, marker='s')
+        plt.scatter(clusters[:,0], clusters[:,1], c = self.clusterColorEmphase(clustersColor), marker='s')
         
-        plt.show()
+        plt.savefig("clusterOut")
